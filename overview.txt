@@ -1,0 +1,106 @@
+তোমার একটা Git project আছে
+তাতে ২টা ব্রাঞ্চ আছে:
+
+main → মূল কোড (stable version)
+
+dev → development বা কাজ চলমান কোড
+
+আর তোমার টিমের কয়েকজন সদস্য (team members) আছে — তারা নিজ নিজ কাজ করবে, তারপর তোমাকে (বা project lead কে) পাঠাবে (merge করার জন্য)।
+
+🔧 Step-by-Step Workflow
+🧩 Step 1: Project setup (তুমি তৈরি করবে)
+
+তুমি প্রথমে GitHub / GitLab / Bitbucket এ প্রজেক্ট repo তৈরি করবে।
+যেমন ধরো নাম দিলে → my-project
+
+লোকাল থেকে সেটি push করবে
+
+git init
+git remote add origin https://github.com/username/my-project.git
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git push -u origin main
+
+
+তারপর তুমি dev branch তৈরি করবে
+
+git checkout -b dev
+git push -u origin dev
+
+
+👉 এখন তোমার GitHub এ দুইটা ব্রাঞ্চ থাকবে: main এবং dev
+
+👥 Step 2: Team member রা কাজ শুরু করবে
+
+প্রত্যেকে এই repo clone করবে:
+
+git clone https://github.com/username/my-project.git
+
+
+তারপর তারা dev branch এ চলে যাবে:
+
+git checkout dev
+
+🌱 Step 3: প্রত্যেকে নিজের feature branch তৈরি করবে
+
+যাতে কেউ সরাসরি dev branch এ কাজ না করে (এটা ভালো practice)।
+
+ধরা যাক একজন সদস্যের নাম Rahim, সে একটি লগইন ফিচার করবে:
+
+git checkout -b feature/login
+
+
+এখন সে তার কোড লিখবে, commit করবে:
+
+git add .
+git commit -m "Added login feature"
+
+
+তারপর push করবে:
+
+git push origin feature/login
+
+🔄 Step 4: Pull Request (PR) বা Merge Request তৈরি করা
+
+Rahim এখন GitHub এ গিয়ে Pull Request খুলবে
+যেমন:
+
+From: feature/login
+
+To: dev
+
+তুমি (বা lead developer) এই PR রিভিউ করবে।
+যদি সব ঠিক থাকে, তুমি merge করবে dev এ।
+
+🧹 Step 5: Merge dev → main (final stage)
+
+সব feature merge হয়ে গেলে এবং টেস্ট শেষ হলে,
+তুমি dev এর কোড main এ merge করবে:
+
+git checkout main
+git merge dev
+git push origin main
+
+
+👉 এখন তোমার main branch আপডেট হবে এবং stable কোড থাকবে সেখানে।
+
+💡 Extra Tips
+
+main → শুধু stable release রাখো
+
+dev → সব কাজ merge হওয়ার জায়গা
+
+feature branches → প্রত্যেকের আলাদা কাজ
+
+Conflict এলে merge করার আগে team discussion করে resolve করো
+
+সবাই নিয়মিত git pull origin dev করবে, যাতে latest code পায়
+
+🔁 Visual Summary
+main  ←  dev  ←  feature/login
+             ←  feature/signup
+             ←  feature/dashboard
+
+
+সব feature merge → dev → তারপর dev merge → main ✅
